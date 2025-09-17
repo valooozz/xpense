@@ -1,5 +1,9 @@
 package com.demo.xpense.model;
 
+import java.util.Date;
+
+import com.demo.xpense.model.enums.TransactionType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,13 +30,19 @@ public class Transaction {
     private Long id;
 
     @Column(nullable = false)
-    private String type;
+    private String title;
+
+    @Column(nullable = false)
+    private TransactionType type;
 
     @Column(nullable = false)
     private String category;
 
     @Column(nullable = false)
     private double amount;
+
+    @Column(nullable = false)
+    private Date date;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)

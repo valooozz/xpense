@@ -1,7 +1,5 @@
 package com.demo.xpense.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.demo.xpense.dto.request.UserLoginRequestDto;
 import com.demo.xpense.dto.response.UserResponseDto;
 import com.demo.xpense.service.UserService;
 
@@ -33,9 +32,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponseDto> login(@RequestBody Map<String, String> credentials) {
-        String username = credentials.get("username");
-        String password = credentials.get("password");
+    public ResponseEntity<UserResponseDto> login(@RequestBody UserLoginRequestDto credentials) {
+        String username = credentials.getUsername();
+        String password = credentials.getPassword();
         UserResponseDto response = userService.getUserByUsernameAndPassword(username, password);
         return ResponseEntity.ok(response);
     }
