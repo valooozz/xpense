@@ -31,6 +31,11 @@ public class UserService {
         return UserResponseDto.fromEntity(user);
     }
 
+    public UserResponseDto getUserByUsernameAndPassword(String username, String password) {
+        User user = userRepository.findByUsernameAndPassword(username, password).orElseThrow(() -> new RuntimeException("User not found"));
+        return UserResponseDto.fromEntity(user);
+    }
+
     public User saveUser(User user) {
         return userRepository.save(user);
     }
