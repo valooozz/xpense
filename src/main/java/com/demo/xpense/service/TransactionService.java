@@ -4,10 +4,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.demo.xpense.dto.request.TransactionCreateRequestDto;
+import com.demo.xpense.dto.response.AmountByCategory;
 import com.demo.xpense.dto.response.TransactionResponseDto;
 import com.demo.xpense.model.Transaction;
 import com.demo.xpense.model.User;
@@ -21,7 +21,6 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
 
-    @Autowired
     public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
@@ -64,5 +63,9 @@ public class TransactionService {
 
     public void deleteTransaction(Long id) {
         transactionRepository.deleteById(id);
+    }
+
+    public List<AmountByCategory> getStatsByCategory(Long userId) {
+        return transactionRepository.getStatsByCategory(userId);
     }
 }

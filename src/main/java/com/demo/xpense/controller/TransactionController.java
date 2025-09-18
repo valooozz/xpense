@@ -2,7 +2,6 @@ package com.demo.xpense.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.xpense.dto.request.TransactionCreateRequestDto;
+import com.demo.xpense.dto.response.AmountByCategory;
 import com.demo.xpense.dto.response.TransactionResponseDto;
 import com.demo.xpense.service.TransactionService;
+
 
 
 @RestController
@@ -22,7 +23,6 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
-    @Autowired
     public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
@@ -38,4 +38,11 @@ public class TransactionController {
         TransactionResponseDto response = transactionService.createTransaction(newTransaction);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/stats/category/{userId}")
+    public ResponseEntity<List<AmountByCategory>> getStatsByCategory(@PathVariable Long userId) {
+        List<AmountByCategory> response = transactionService.getStatsByCategory(userId);
+        return ResponseEntity.ok(response);
+    }
+    
 }
