@@ -1,6 +1,6 @@
 package com.demo.xpense.dto.response;
 
-public interface AmountByCategory {
-    String getCategory();
+public interface AmountByGroupement {
+    String getGrouping();
     Double getAmount();
 }

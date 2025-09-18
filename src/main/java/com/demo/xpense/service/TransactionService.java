@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.demo.xpense.dto.request.TransactionCreateRequestDto;
-import com.demo.xpense.dto.response.AmountByCategory;
+import com.demo.xpense.dto.response.AmountByGroupement;
 import com.demo.xpense.dto.response.TransactionResponseDto;
 import com.demo.xpense.model.Transaction;
 import com.demo.xpense.model.User;
@@ -65,7 +65,11 @@ public class TransactionService {
         transactionRepository.deleteById(id);
     }
 
-    public List<AmountByCategory> getStatsByCategory(Long userId) {
+    public List<AmountByGroupement> getStatsByCategory(Long userId) {
         return transactionRepository.getStatsByCategory(userId);
+    }
+
+    public List<AmountByGroupement> getStatsByMonth(Long userId) {
+        return transactionRepository.getStatsByMonth(userId);
     }
 }
