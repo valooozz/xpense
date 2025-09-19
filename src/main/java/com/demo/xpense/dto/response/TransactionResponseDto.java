@@ -17,7 +17,7 @@ import lombok.Setter;
 public class TransactionResponseDto {
 
     private Long id;
-    private String libelle;
+    private String title;
     private TransactionType type;
     private String category;
     private double amount;

@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.demo.xpense.dto.request.TransactionCreateRequestDto;
-import com.demo.xpense.dto.response.AmountByGroupement;
+import com.demo.xpense.dto.request.TransactionUpdateRequestDto;
 import com.demo.xpense.dto.response.TransactionResponseDto;
 import com.demo.xpense.model.Transaction;
 import com.demo.xpense.model.User;
@@ -61,15 +61,31 @@ public class TransactionService {
         return TransactionResponseDto.fromEntity(saved);
     }
 
+    public TransactionResponseDto updateTransaction(Long id, TransactionUpdateRequestDto updatedTransaction) {
+        Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Transaction not found"));
+
+        if (updatedTransaction.getTitle() != null) {
+            transaction.setTitle(updatedTransaction.getTitle());
+        }
+        if (updatedTransaction.getType() != null) {
+            transaction.setType(updatedTransaction.getType());
+        }
+        if (updatedTransaction.getCategory() != null) {
+            transaction.setCategory(updatedTransaction.getCategory());
+        }
+        if (updatedTransaction.getAmount() != 0) {
+            transaction.setAmount(updatedTransaction.getAmount());
+        }
+        if (updatedTransaction.getDate() != null) {
+            transaction.setDate(updatedTransaction.getDate());
+        }
+
+        Transaction updated = transactionRepository.save(transaction);
+        return TransactionResponseDto.fromEntity(updated);
+    }
+
     public void deleteTransaction(Long id) {
         transactionRepository.deleteById(id);
-    }
-
-    public List<AmountByGroupement> getStatsByCategory(Long userId) {
-        return transactionRepository.getStatsByCategory(userId);
-    }
-
-    public List<AmountByGroupement> getStatsByMonth(Long userId) {
-        return transactionRepository.getStatsByMonth(userId);
     }
 }
