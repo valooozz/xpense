@@ -19,29 +19,49 @@ export class GenericFormComponent {
   @Input() userId!: string;
   @Input() formTitle!: string;
   @Input() onSuccess?: () => void;
+  @Input() initialValues: { [key: string]: any } = {};
+  @Input() edit: boolean = false;
 
   form: FormGroup;
   loading = false;
   message: string | null = null;
   success = false;
+  private initialized = false;
 
   constructor(private fb: FormBuilder, private api: ApiService) {
     this.form = this.fb.group({});
   }
 
-  ngOnChanges() {
+  ngOnInit() {
+    this.formatAndVerifyFields();
+    this.initialized = true;
+  }
+
+  ngOnChanges(changes: any) {
+    if (!this.initialized) return;
+    if (changes.fields || changes.initialValues) {
+      this.formatAndVerifyFields();
+    }
+  }
+
+  formatAndVerifyFields() {
     const group: any = {};
     this.fields.forEach(field => {
-      group[field.name] = [
-        '',
-        field.validators ? field.validators.map(v => {
-          switch (v) {
-            case 'required': return Validators.required;
-            case 'gt0': return Validators.min(0.01);
-            default: return null;
-          }
-        }) : []
-      ];
+      let value = (this.initialValues && this.initialValues.hasOwnProperty(field.name)) ? this.initialValues[field.name] : '';
+      if (field.type === 'date' && value) {
+        const date = new Date(value);
+        if (!isNaN(date.getTime())) {
+          value = date.toISOString().slice(0, 10);
+        }
+      }
+      const validators = field.validators ? field.validators.map(v => {
+        switch (v) {
+          case 'required': return Validators.required;
+          case 'gt0': return Validators.min(0.01);
+          default: return null;
+        }
+      }).filter(Boolean) : [];
+      group[field.name] = [value, validators];
     });
     this.form = this.fb.group(group);
   }
@@ -60,31 +80,56 @@ export class GenericFormComponent {
       userId: this.userId
     }
 
-    this.api.post(this.endpoint, request)
-      .subscribe({
-        next: async (res) => {
-          this.loading = false;
-          this.success = true;
-          this.message = this.successMessage;
-          this.form.reset();
-          console.log(res);
-          if ((this as any).onSuccess) {
-            (this as any).onSuccess();
+    if (this.edit) {
+      this.api.put(`${this.endpoint}/${this.initialValues['id']}`, request)
+        .subscribe({
+          next: async () => {
+            this.loading = false;
+            this.success = true;
+            this.message = this.successMessage;
+            this.form.reset();
+            if ((this as any).onSuccess) {
+              (this as any).onSuccess();
+            }
+          },
+          error: (err) => {
+            this.loading = false;
+            this.success = false;
+            this.message = err?.error?.message || "Erreur lors de l'envoi";
           }
-        },
-        error: (err) => {
-          this.loading = false;
-          this.success = false;
-          this.message = err?.error?.message || "Erreur lors de l'envoi";
-        }
-      });
+        });
+    } else { // create
+      this.api.post(this.endpoint, request)
+        .subscribe({
+          next: async () => {
+            this.loading = false;
+            this.success = true;
+            this.message = this.successMessage;
+            this.form.reset();
+            if ((this as any).onSuccess) {
+              (this as any).onSuccess();
+            }
+          },
+          error: (err) => {
+            this.loading = false;
+            this.success = false;
+            this.message = err?.error?.message || "Erreur lors de l'envoi";
+          }
+        });
+    }
   }
 
   getError(fieldName: string, validator: string): boolean {
     const field = this.form.get(fieldName);
     return field?.hasError(validator) && field?.touched || false;
   }
-    public reset() {
+  
+  public reset(fullReset: boolean = true) {
+    if (fullReset) {
       this.form.reset();
+    } else {
+      this.formatAndVerifyFields();
+      this.message = null;
     }
+  }
 }

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TransactionService } from '../../../core/services/transaction.service';
 import { FormField } from '../../../models/form-field';
+import { Transaction } from '../../../models/transaction';
 import { GenericFormComponent } from '../../../shared/generic-form/generic-form.component';
 
 @Component({
@@ -10,10 +11,15 @@ import { GenericFormComponent } from '../../../shared/generic-form/generic-form.
   imports: [CommonModule, GenericFormComponent],
   templateUrl: './transaction-form.component.html',
 })
-export class TransactionFormComponent {
-  @ViewChild(GenericFormComponent) genericForm!: GenericFormComponent;
-  constructor(private transactionService: TransactionService) {}
+export class TransactionFormComponent implements OnInit {
   @Input() userId!: string;
+  @Input() transaction!: Transaction;
+
+  @Output() edited = new EventEmitter<void>();
+
+  @ViewChild(GenericFormComponent) genericForm!: GenericFormComponent;
+
+  constructor(private transactionService: TransactionService) {}
 
   fields: FormField[] = [
     { name: 'title', type: 'text', label: 'Titre', validators: ['required'] },
@@ -29,18 +35,24 @@ export class TransactionFormComponent {
     { name: 'date', type: 'date', label: 'Date' },
   ];
 
-  submitLabel = 'Ajouter la transaction';
+  submitLabel!: string;
+  formTitle!: string;
   endpoint = 'transaction';
   successMessage = 'Transaction ajoutée';
-  formTitle = 'Nouvelle transaction';
 
-  handleSuccess = () => {
+  ngOnInit() {
+    this.submitLabel = this.transaction === undefined ? 'Ajouter la transaction' : 'Éditer la transaction';
+    this.formTitle = this.transaction === undefined ? 'Nouvelle transaction' : 'Édition de transaction'
+  }
+
+  handleSuccess() {
+    this.edited.emit();
     this.transactionService.notifyTransactionsChanged();
   }
 
-  resetForm() {
+  resetForm(fullReset: boolean = true) {
     if (this.genericForm) {
-      this.genericForm.reset();
+      this.genericForm.reset(fullReset);
     }
   }
 }

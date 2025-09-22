@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ApiService } from '../../../core/services/api.service';
 import { TransactionService } from '../../../core/services/transaction.service';
+import { TransactionFormComponent } from '../../../features/transaction/transaction-form/transaction-form.component';
 import { Transaction } from '../../../models/transaction';
 import { ButtonComponent } from '../../button/button.component';
 import { ModalComponent } from '../../modal/modal.component';
@@ -10,13 +11,16 @@ import { SpinComponent } from '../../spin/spin.component';
 @Component({
   selector: 'app-detailed-transaction-card',
   standalone: true,
-  imports: [CommonModule, ModalComponent, ButtonComponent, SpinComponent],
+  imports: [CommonModule, ModalComponent, ButtonComponent, SpinComponent, TransactionFormComponent],
   templateUrl: './detailed-transaction-card.component.html',
   styles: ``
 })
 export class DetailedTransactionCardComponent {
   @Input() transaction!: Transaction;
+  
   @Output() deleted = new EventEmitter<void>();
+
+  @ViewChild(TransactionFormComponent) transactionForm!: TransactionFormComponent;
 
   loading = false;
   message = '';
@@ -30,6 +34,13 @@ export class DetailedTransactionCardComponent {
 
   onCloseTransactionForm() {
     this.showTransactionForm = false;
+    this.resetForm(false);
+  }
+
+  resetForm(fullReset: boolean = true) {
+    if (this.transactionForm) {
+      this.transactionForm.resetForm(fullReset);
+    }
   }
 
   onDeleteTransaction() {

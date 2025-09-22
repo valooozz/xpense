@@ -5,5 +5,7 @@
   [successMessage]="successMessage"
   [userId]="userId"
   [formTitle]="formTitle"
-  [onSuccess]="handleSuccess"
+  [onSuccess]="handleSuccess.bind(this)"
+  [initialValues]="transaction"
+  [edit]="transaction !== undefined"
 />
