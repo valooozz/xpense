@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Transaction } from '../../models/transaction';
+import { TransactionsByMonth } from '../../models/transactions-by-month';
 import { ApiService } from './api.service';
 
 @Injectable({ 
@@ -19,7 +19,11 @@ export class TransactionService {
     this.transactionsChanged.next();
   }
 
-  getTransactionsByUser(userId: string): Observable<Transaction[]> {
-    return this.api.get<Transaction[]>(`transaction/user/${userId}`);
+  getTransactionsByUser(all: boolean, userId: string): Observable<TransactionsByMonth[]> {
+    let endpoint = `transaction/user/${userId}`
+    if (!all) {
+      endpoint += '/last'
+    }
+    return this.api.get<TransactionsByMonth[]>(endpoint);
   }
 }

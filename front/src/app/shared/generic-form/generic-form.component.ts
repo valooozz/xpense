@@ -88,8 +88,8 @@ export class GenericFormComponent {
             this.success = true;
             this.message = this.successMessage;
             this.form.reset();
-            if ((this as any).onSuccess) {
-              (this as any).onSuccess();
+            if (this.onSuccess) {
+              this.onSuccess();
             }
           },
           error: (err) => {
@@ -106,8 +106,8 @@ export class GenericFormComponent {
             this.success = true;
             this.message = this.successMessage;
             this.form.reset();
-            if ((this as any).onSuccess) {
-              (this as any).onSuccess();
+            if (this.onSuccess) {
+              this.onSuccess();
             }
           },
           error: (err) => {

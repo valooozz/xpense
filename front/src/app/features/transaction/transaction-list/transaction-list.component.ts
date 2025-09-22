@@ -1,20 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { TransactionService } from '../../../core/services/transaction.service';
-import { Transaction } from '../../../models/transaction';
+import { TransactionsByMonth } from '../../../models/transactions-by-month';
+import { MonthYearFormatPipe } from '../../../shared/pipes/monthYearFormat.pipe';
 import { TransactionCardComponent } from '../../../shared/transaction/transaction-card/transaction-card.component';
 
 @Component({
   selector: 'app-transaction-list',
   standalone: true,
-  imports: [CommonModule, TransactionCardComponent],
+  imports: [CommonModule, TransactionCardComponent, MonthYearFormatPipe],
   templateUrl: './transaction-list.component.html'
 })
 export class TransactionListComponent implements OnInit {
   @Input() userId!: string;
-  @Input() nbToShow: number = 4;
+  @Input() all: boolean = false;
   
-  transactions: Transaction[] = [];
+  transactionsByMonth: TransactionsByMonth[] = [];
   errorMessage!: string;
 
   constructor(private transactionService: TransactionService) {}
@@ -27,14 +28,10 @@ export class TransactionListComponent implements OnInit {
   }
 
   private loadTransactions() {
-    this.transactionService.getTransactionsByUser(this.userId)
+    this.transactionService.getTransactionsByUser(this.all, this.userId)
       .subscribe({
         next: (res) => {
-          if (this.nbToShow === 0) {
-            this.transactions = res;
-          } else {
-            this.transactions = res.slice(0, this.nbToShow)
-          }
+          this.transactionsByMonth = res;
         },
         error: (err) => {
           this.errorMessage = err?.error?.message || "Impossible de récupérer les transactions.";

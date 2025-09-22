@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.demo.xpense.dto.request.TransactionCreateRequestDto;
 import com.demo.xpense.dto.request.TransactionUpdateRequestDto;
 import com.demo.xpense.dto.response.TransactionResponseDto;
+import com.demo.xpense.dto.response.TransactionsByMonthResponseDto;
 import com.demo.xpense.service.TransactionService;
 
 
@@ -30,8 +31,14 @@ public class TransactionController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<TransactionResponseDto>> getTransactionsFromUser(@PathVariable Long userId) {
-        List<TransactionResponseDto> response = transactionService.getAllTransactionsByUserId(userId);
+    public ResponseEntity<List<TransactionsByMonthResponseDto>> getAllTransactionsFromUser(@PathVariable Long userId) {
+        List<TransactionsByMonthResponseDto> response = transactionService.getAllTransactionsByUserId(userId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/user/{userId}/last")
+    public ResponseEntity<List<TransactionsByMonthResponseDto>> getLastTransactionsFromUser(@PathVariable Long userId) {
+        List<TransactionsByMonthResponseDto> response = transactionService.getLastTransactionsByUserId(userId);
         return ResponseEntity.ok(response);
     }
 

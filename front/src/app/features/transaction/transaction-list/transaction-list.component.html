@@ -1,12 +1,17 @@
-<div class="flex flex-col justify-start gap-y-2">
+<div class="flex flex-col justify-start gap-y-8">
     
-    @for (transaction of transactions; track transaction.id) {
-        <div>
-            <app-transaction-card [transaction]="transaction" />
+    @for (transactionByMonth of transactionsByMonth; track transactionByMonth.month) {
+        <div class="flex flex-col justify-start gap-y-2">
+            <p class="text-2xl font-semibold text-center">{{ transactionByMonth.month | monthYearFormat }}</p>
+            
+            @for (transaction of transactionByMonth.transactions; track transaction.id) {
+                <app-transaction-card [transaction]="transaction" />
+            }
+
         </div>
     }
 
-    @if (transactions.length === 0) {
+    @if (transactionsByMonth.length === 0) {
         <p class="text-gray-500 italic mt-4">
             Aucune transaction réalisée.
         </p>

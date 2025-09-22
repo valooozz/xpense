@@ -11,9 +11,45 @@ import com.demo.xpense.model.Transaction;
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     List<Transaction> findByUserIdOrderByDateDesc(Long userId);
 
-    @Query("SELECT t.category as grouping, SUM(t.amount) as amount FROM Transaction t WHERE t.user.id = ?1 AND t.type = 0 GROUP BY t.category")
+    List<Transaction> findTop4ByUserIdOrderByDateDesc(Long userId);
+
+    @Query(
+      value = """
+        SELECT 
+            TO_CHAR(t.date, 'YYYY-MM') AS mois,
+            JSON_AGG(
+                JSON_BUILD_OBJECT(
+                    'id', t.id,
+                    'title', t.title,
+                    'type', t.type,
+                    'category', t.category,
+                    'amount', t.amount,
+                    'date', t.date
+                )
+                ORDER BY t.date DESC
+            ) AS transactions
+        FROM transaction t
+        WHERE t.user_id = ?1
+        GROUP BY TO_CHAR(t.date, 'YYYY-MM')
+        ORDER BY mois DESC
+        """,
+      nativeQuery = true
+    )
+    List<Object[]> findTransactionsByUserIdGroupedByMonth(Long userID);
+
+    @Query("""
+        SELECT t.category as grouping, SUM(t.amount) as amount 
+        FROM Transaction t 
+        WHERE t.user.id = ?1 AND t.type = 0 
+        GROUP BY t.category
+    """)
     List<AmountByGroupement> getStatsByCategory(Long userId);
 
-    @Query("SELECT EXTRACT(MONTH FROM t.date) as grouping, SUM(t.amount) as amount FROM Transaction t WHERE t.user.id = ?1 AND t.type = 0 GROUP BY EXTRACT(MONTH FROM t.date)")
+    @Query("""
+        SELECT EXTRACT(MONTH FROM t.date) as grouping, SUM(t.amount) as amount 
+        FROM Transaction t 
+        WHERE t.user.id = ?1 AND t.type = 0 
+        GROUP BY EXTRACT(MONTH FROM t.date)
+    """)
     List<AmountByGroupement> getStatsByMonth(Long userId);
 }
