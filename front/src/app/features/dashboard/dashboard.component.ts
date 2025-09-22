@@ -5,7 +5,7 @@ import { ApiService } from '../../core/services/api.service';
 import { Transaction } from '../../models/transaction';
 import { GraphCardComponent } from "../../shared/graph/graph-card/graph-card.component";
 import { GraphComponent } from '../../shared/graph/graph/graph.component';
-import { TransactionManagerComponent } from '../transaction-manager/transaction-manager.component';
+import { TransactionManagerComponent } from '../transaction/transaction-manager/transaction-manager.component';
 
 @Component({
   selector: 'app-dashboard',

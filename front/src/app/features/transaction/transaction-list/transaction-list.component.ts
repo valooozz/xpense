@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { TransactionService } from '../../core/services/transaction.service';
-import { Transaction } from '../../models/transaction';
-import { TransactionCardComponent } from '../../shared/transaction-card/transaction-card.component';
+import { TransactionService } from '../../../core/services/transaction.service';
+import { Transaction } from '../../../models/transaction';
+import { TransactionCardComponent } from '../../../shared/transaction/transaction-card/transaction-card.component';
 
 @Component({
   selector: 'app-transaction-list',

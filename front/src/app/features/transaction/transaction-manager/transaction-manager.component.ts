@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { ButtonComponent } from '../../shared/button/button.component';
-import { ModalComponent } from '../../shared/modal/modal.component';
+import { ButtonComponent } from '../../../shared/button/button.component';
+import { ModalComponent } from '../../../shared/modal/modal.component';
 import { TransactionFormComponent } from '../transaction-form/transaction-form.component';
 import { TransactionListComponent } from '../transaction-list/transaction-list.component';
 

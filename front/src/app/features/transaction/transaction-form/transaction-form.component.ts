@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
-import { TransactionService } from '../../core/services/transaction.service';
-import { FormField } from '../../models/form-field';
-import { GenericFormComponent } from '../../shared/generic-form/generic-form.component';
+import { TransactionService } from '../../../core/services/transaction.service';
+import { FormField } from '../../../models/form-field';
+import { GenericFormComponent } from '../../../shared/generic-form/generic-form.component';
 
 @Component({
   selector: 'app-transaction-form',
