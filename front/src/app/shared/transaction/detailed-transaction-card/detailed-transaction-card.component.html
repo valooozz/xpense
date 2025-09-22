@@ -25,9 +25,16 @@
       Éditer la transaction
     </app-button>
     <app-button variant="danger" (click)="onDeleteTransaction()">
+      <app-spin [loading]="loading" />
       Suppprimer la transaction
     </app-button>
   </div>
+
+  @if (message) {
+      <div class="mt-2 font-semibold text-red-500">
+          {{ message }}
+      </div>
+  }
 
 </div>
 

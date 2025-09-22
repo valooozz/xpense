@@ -3,11 +3,12 @@ import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../core/services/api.service';
 import { FormField } from '../../models/form-field';
+import { SpinComponent } from '../spin/spin.component';
 
 @Component({
   selector: 'app-generic-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SpinComponent],
   templateUrl: './generic-form.component.html',
 })
 export class GenericFormComponent {

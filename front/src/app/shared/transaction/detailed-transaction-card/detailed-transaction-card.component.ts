@@ -5,19 +5,21 @@ import { TransactionService } from '../../../core/services/transaction.service';
 import { Transaction } from '../../../models/transaction';
 import { ButtonComponent } from '../../button/button.component';
 import { ModalComponent } from '../../modal/modal.component';
+import { SpinComponent } from '../../spin/spin.component';
 
 @Component({
   selector: 'app-detailed-transaction-card',
   standalone: true,
-  imports: [CommonModule, ModalComponent, ButtonComponent],
+  imports: [CommonModule, ModalComponent, ButtonComponent, SpinComponent],
   templateUrl: './detailed-transaction-card.component.html',
   styles: ``
 })
 export class DetailedTransactionCardComponent {
   @Input() transaction!: Transaction;
-
   @Output() deleted = new EventEmitter<void>();
 
+  loading = false;
+  message = '';
   showTransactionForm = false;
 
   constructor(private api: ApiService, private transactionService: TransactionService) {}
@@ -33,23 +35,14 @@ export class DetailedTransactionCardComponent {
   onDeleteTransaction() {
     this.api.delete(`transaction/${this.transaction.id}`)
       .subscribe({
-        next: async (res) => {
-          // this.loading = false;
-          // this.success = true;
-          // this.message = this.successMessage;
-          // this.form.reset();
-          console.log(res);
+        next: async () => {
+          this.loading = false;
           this.transactionService.notifyTransactionsChanged();
           this.deleted.emit();
-          if ((this as any).onSuccess) {
-            (this as any).onSuccess();
-          }
         },
         error: (err) => {
-          console.error(err);
-          // this.loading = false;
-          // this.success = false;
-          // this.message = err?.error?.message || "Erreur lors de l'envoi";
+          this.loading = false;
+          this.message = err?.error?.message || "Erreur lors de la suppression de la transaction";
         }
       });
   }
