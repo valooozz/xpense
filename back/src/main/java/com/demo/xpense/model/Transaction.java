@@ -35,7 +35,6 @@ public class Transaction {
     @Column(nullable = false)
     private TransactionType type;
 
-    @Column(nullable = false)
     private String category;
 
     @Column(nullable = false)

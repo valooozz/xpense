@@ -21,7 +21,6 @@ public class TransactionCreateRequestDto {
 
     private TransactionType type;
 
-    @NotBlank(message = "mandatory category")
     private String category;
 
     @NotBlank(message = "mandatory amount")

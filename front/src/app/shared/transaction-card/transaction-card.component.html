@@ -1,0 +1,28 @@
+<div [ngClass]="transaction.type === 'EXPENSE' ? 'bg-red-50' : 'bg-green-100'" class="shadow-md rounded-2xl p-4 border border-gray-200">
+
+    <div class="flex flex-row justify-between font-semibold text-gray-800 mb-2">
+
+      <p class="text-lg max-w-2/3 ">
+        {{ transaction.title }}
+      </p>
+
+      <p class="text-xl">
+        {{ transaction.amount | number:'1.2-2':'fr-FR' }} €
+      </p>
+
+    </div>
+
+    <div class="flex flex-row justify-between">
+
+      <p class="text-gray-500">
+        {{ transaction.category }}
+      </p>
+      
+      <p class="text-gray-500">
+        {{ transaction.date | date:'dd/MM/yyyy' }}
+      </p>
+      
+    </div>
+
+</div>
+  

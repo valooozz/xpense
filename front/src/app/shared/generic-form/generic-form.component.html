@@ -1,0 +1,77 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4 px-4 rounded bg-white">
+
+    <p class="font-semibold text-xl text-center">
+        {{ formTitle }}
+    </p>
+
+    @for (field of fields; track field.name) {
+        <div class="flex flex-col">
+            <label [for]="field.name" class="mb-1 font-semibold text-gray-700">{{ field.label }}</label>
+      
+            @if (field.type !== 'select' && field.type !== 'radio' && field.type !== 'checkbox') {
+                 <input
+                 [type]="field.type"
+                 [id]="field.name"
+                 [formControlName]="field.name"
+                 [min]="field.validators?.includes('gt0') ? 0.01 : null"
+                 class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            }
+      
+            @if (field.type === 'select') {
+                <select
+                [id]="field.name"
+                [formControlName]="field.name"
+                class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                @for (opt of field.options; track opt) {
+                    <option [value]="opt.value" [label]="opt.label">{{ opt }}</option>
+                }
+              </select>
+            }
+
+            @if (field.type === 'checkbox') {
+                <div class="flex items-center">
+                    <input type="checkbox" [id]="field.name" [formControlName]="field.name" class="mr-2">
+                    <label [for]="field.name">{{ field.label }}</label>
+                </div>
+            }
+              
+            @if (field.type === 'radio') {
+                <div class="flex flex-col">
+                    @for (opt of field.options; track opt) {
+                        <label class="flex items-center">
+                            <input type="radio" [formControlName]="field.name" [value]="opt.value" class="mr-2">{{ opt }}
+                        </label>
+                    }
+                </div>
+            }
+              
+      
+            @if (field.validators?.includes('required') && getError(field.name, 'required')) {
+                <div class="text-red-500 text-sm mt-1">
+                    Ce champ est requis.
+                </div>
+                }
+            @if (field.validators?.includes('gt0') && getError(field.name, 'min')) {
+                <div class="text-red-500 text-sm mt-1">
+                    La valeur doit être strictement supérieure à zéro.
+                </div>
+            }
+        </div>
+    }
+  
+    <button type="submit"
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center justify-center"
+            [disabled]="loading">
+      @if (loading) {
+        <span class="animate-spin mr-2 border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
+      }
+      {{ submitLabel }}
+    </button>
+  
+    @if (message) {
+        <div [ngClass]="{'text-green-500': success, 'text-red-500': !success}" class="mt-2 font-semibold">
+            {{ message }}
+        </div>
+    }  
+  </form>
+  

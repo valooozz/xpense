@@ -1,0 +1,18 @@
+@if (isOpen) {
+  <div class="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+    <div 
+      class="bg-white rounded-2xl shadow-lg w-full max-w-lg p-6 pt-12 relative transform transition-transform duration-300 ease-out"
+    >
+      <button 
+        class="absolute top-3 right-4 text-gray-500 hover:text-gray-800"
+        (click)="onClose()">
+        ✕
+      </button>
+
+      <div class="overflow-y-scroll scrollbar-hide max-h-[80vh] pb-4">
+        <ng-content></ng-content>
+      </div>
+      
+    </div>
+  </div>
+}

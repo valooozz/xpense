@@ -1,0 +1,27 @@
+<div class="flex flex-col gap-y-6 items-stretch p-6">
+
+  <h1 class="text-5xl font-semibold text-center">
+    Dashboard
+  </h1>
+
+  <div class="flex flex-row justify-between items-center gap-x-8">
+
+    <div class="w-1/3">
+      <app-graph-card [userId]="userId" endpoint="stats/category" title="Dépenses par catégorie">
+        <app-graph #data graphType="pie"></app-graph>
+      </app-graph-card>
+    </div>
+
+    <div class="w-1/3">
+      <app-graph-card [userId]="userId" endpoint="stats/month" title="Dépenses par mois">
+        <app-graph #data graphType="bar"></app-graph>
+      </app-graph-card>
+    </div>
+      
+    <div class="w-1/3">
+      <app-transaction-manager [userId]="userId" />
+    </div>
+
+  </div>
+</div>
+  

@@ -1,0 +1,12 @@
+<div class="w-full max-w-md mx-auto h-96">
+  @if (data && data.length && data.length > 0) {
+    <canvas
+      baseChart
+      [data]="graphData"
+      [type]="graphType"
+      [options]="getGraphOptions(graphType)">
+    </canvas>
+  } @else {
+    <p class="text-center text-gray-500">Aucune donnée à afficher</p>
+  }
+</div>

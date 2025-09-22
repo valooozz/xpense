@@ -14,9 +14,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionUpdateRequestDto {
+
     private String title;
+
     private TransactionType type;
+
     private String category;
+
     private double amount;
+    
     private Date date;
 }
