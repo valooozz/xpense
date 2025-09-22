@@ -1,7 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class ApiService {
     return this.http.put<T>(`${this.baseUrl}/${endpoint}`, data);
   }
 
-  delete<T>(endpoint: string, data: any): Observable<HttpEvent<T>> {
-    return this.http.delete<T>(`${this.baseUrl}/${endpoint}`, data);
+  delete<T>(endpoint: string): Observable<T> {
+    return this.http.delete<T>(`${this.baseUrl}/${endpoint}`);
   }
 }

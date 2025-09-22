@@ -27,5 +27,5 @@
 </div>
 
 <app-modal [isOpen]="showDetailedTransaction" (closed)="onCloseDetailedTransaction()">
-   <app-detailed-transaction-card [transaction]="transaction" />
+  <app-detailed-transaction-card [transaction]="transaction" (deleted)="onCloseDetailedTransaction()" />
 </app-modal>

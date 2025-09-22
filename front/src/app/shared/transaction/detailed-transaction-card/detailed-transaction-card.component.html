@@ -20,6 +20,15 @@
     Date : <span class="font-bold">{{ transaction.date | date:'dd/MM/yyyy' }}</span>
   </p>
 
+  <div class="flex flex-row gap-x-4 px-1 mt-4">
+    <app-button class="flex-1">
+      Éditer la transaction
+    </app-button>
+    <app-button variant="danger" (click)="onDeleteTransaction()">
+      Suppprimer la transaction
+    </app-button>
+  </div>
+
 </div>
 
 <app-modal [isOpen]="showTransactionForm" (closed)="onCloseTransactionForm()">

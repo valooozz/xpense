@@ -1,6 +1,7 @@
 package com.demo.xpense.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,9 +48,9 @@ public class TransactionController {
     }
 
     @DeleteMapping("/{transactionId}")
-    public ResponseEntity<String> deleteTransaction(@PathVariable Long transactionId) {
+    public ResponseEntity<Map<String, String>> deleteTransaction(@PathVariable Long transactionId) {
         transactionService.deleteTransaction(transactionId);
-        return ResponseEntity.ok("Tansaction deleted successfully");
+        return ResponseEntity.ok(Map.of("message", "Tansaction deleted successfully"));
     }
     
 }

@@ -16,7 +16,6 @@ export class TransactionCardComponent {
   showDetailedTransaction = false;
 
   onOpenDetailedTransaction() {
-    console.log('open');
     this.showDetailedTransaction = true;
   }
 

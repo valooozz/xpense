@@ -59,8 +59,6 @@ export class GenericFormComponent {
       userId: this.userId
     }
 
-    console.log(request);
-
     this.api.post(this.endpoint, request)
       .subscribe({
         next: async (res) => {
