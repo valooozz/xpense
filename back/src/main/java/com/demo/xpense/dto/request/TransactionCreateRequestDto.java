@@ -21,12 +21,12 @@ public class TransactionCreateRequestDto {
 
     private TransactionType type;
 
-    private String category;
-
     @NotBlank(message = "mandatory amount")
     private double amount;
 
     private Date date;
+
+    private Long categoryId;
     
     @NotBlank(message = "mandatory user ID")
     private Long userId;

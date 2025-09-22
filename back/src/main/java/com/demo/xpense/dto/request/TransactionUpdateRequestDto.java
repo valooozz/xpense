@@ -19,7 +19,7 @@ public class TransactionUpdateRequestDto {
 
     private TransactionType type;
 
-    private String category;
+    private Long categoryId;
 
     private double amount;
     

@@ -28,7 +28,7 @@ public class TransactionResponseDto {
                 transaction.getId(),
                 transaction.getTitle(),
                 transaction.getType(),
-                transaction.getCategory(),
+                transaction.getCategory().getLabel(),
                 transaction.getAmount(),
                 transaction.getDate()
         );

@@ -10,9 +10,11 @@ import com.demo.xpense.dto.request.TransactionCreateRequestDto;
 import com.demo.xpense.dto.request.TransactionUpdateRequestDto;
 import com.demo.xpense.dto.response.TransactionResponseDto;
 import com.demo.xpense.dto.response.TransactionsByMonthResponseDto;
+import com.demo.xpense.model.Category;
 import com.demo.xpense.model.Transaction;
 import com.demo.xpense.model.User;
 import com.demo.xpense.model.enums.TransactionType;
+import com.demo.xpense.repository.CategoryRepository;
 import com.demo.xpense.repository.TransactionRepository;
 import com.demo.xpense.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,11 +24,13 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
     private final ObjectMapper objectMapper;
 
-    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository, ObjectMapper objectMapper) {
+    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository, CategoryRepository categoryRepository, ObjectMapper objectMapper) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
         this.objectMapper = objectMapper;
     }
 
@@ -77,11 +81,13 @@ public class TransactionService {
     public TransactionResponseDto createTransaction(TransactionCreateRequestDto requestDto) {
         User user = userRepository.findById(requestDto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        Category category = categoryRepository.findById(requestDto.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
 
         Transaction transaction = new Transaction();
         transaction.setTitle(requestDto.getTitle());
         transaction.setType(requestDto.getType() != null ? requestDto.getType() : TransactionType.EXPENSE);
-        transaction.setCategory(requestDto.getCategory());
+        transaction.setCategory(category);
         transaction.setAmount(requestDto.getAmount());
         transaction.setDate(requestDto.getDate() != null ? requestDto.getDate() : new Date());
         transaction.setUser(user);
@@ -93,6 +99,8 @@ public class TransactionService {
     public TransactionResponseDto updateTransaction(Long id, TransactionUpdateRequestDto updatedTransaction) {
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Transaction not found"));
+        Category category = categoryRepository.findById(updatedTransaction.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
 
         if (updatedTransaction.getTitle() != null) {
             transaction.setTitle(updatedTransaction.getTitle());
@@ -100,8 +108,8 @@ public class TransactionService {
         if (updatedTransaction.getType() != null) {
             transaction.setType(updatedTransaction.getType());
         }
-        if (updatedTransaction.getCategory() != null) {
-            transaction.setCategory(updatedTransaction.getCategory());
+        if (updatedTransaction.getCategoryId() != null) {
+            transaction.setCategory(category);
         }
         if (updatedTransaction.getAmount() != 0) {
             transaction.setAmount(updatedTransaction.getAmount());

@@ -35,8 +35,6 @@ public class Transaction {
     @Column(nullable = false)
     private TransactionType type;
 
-    private String category;
-
     @Column(nullable = false)
     private double amount;
 
@@ -44,6 +42,11 @@ public class Transaction {
     private Date date;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "category_id", nullable = true)
+    private Category category;
+
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+    
 }
