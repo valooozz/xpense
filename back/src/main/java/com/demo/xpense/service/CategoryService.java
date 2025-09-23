@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.demo.xpense.dto.response.FormCategoryResponseDto;
 import com.demo.xpense.model.Category;
 import com.demo.xpense.repository.CategoryRepository;
 
@@ -17,8 +18,11 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Category> getAllTransactions() {
-        return categoryRepository.findAll();
+    public List<FormCategoryResponseDto> getAllCategories() {
+        return categoryRepository.findAll()
+                .stream()
+                .map(FormCategoryResponseDto::fromEntity)
+                .toList();
     }
 
     public Optional<Category> getCategoryById(Long id) {

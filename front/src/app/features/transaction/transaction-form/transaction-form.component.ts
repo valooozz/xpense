@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { CategoryService } from '../../../core/services/category.service';
 import { TransactionService } from '../../../core/services/transaction.service';
+import { Category } from '../../../models/category';
 import { FormField } from '../../../models/form-field';
 import { Transaction } from '../../../models/transaction';
 import { GenericFormComponent } from '../../../shared/generic-form/generic-form.component';
@@ -19,7 +21,7 @@ export class TransactionFormComponent implements OnInit {
 
   @ViewChild(GenericFormComponent) genericForm!: GenericFormComponent;
 
-  constructor(private transactionService: TransactionService) {}
+  constructor(private transactionService: TransactionService, private categoryService: CategoryService) {}
 
   fields: FormField[] = [
     { name: 'title', type: 'text', label: 'Titre', validators: ['required'] },
@@ -27,10 +29,7 @@ export class TransactionFormComponent implements OnInit {
       { label: 'Dépense', value: 'EXPENSE' }, 
       { label: 'Revenu', value: 'INCOME' }
     ]},
-    { name: 'category', type: 'select', label: 'Catégorie', options: [
-      { label: 'Nourriture', value: 'Nourriture' },
-      { label: 'Cadeaux', value: 'Cadeaux' }
-    ] },
+    { name: 'categoryId', type: 'select', label: 'Catégorie' },
     { name: 'amount', type: 'number', label: 'Montant', validators: ['required', 'gt0'] },
     { name: 'date', type: 'date', label: 'Date' },
   ];
@@ -39,10 +38,21 @@ export class TransactionFormComponent implements OnInit {
   formTitle!: string;
   endpoint = 'transaction';
   successMessage = 'Transaction ajoutée';
+  categories!: Category[];
 
   ngOnInit() {
     this.submitLabel = this.transaction === undefined ? 'Ajouter la transaction' : 'Éditer la transaction';
     this.formTitle = this.transaction === undefined ? 'Nouvelle transaction' : 'Édition de transaction'
+
+    this.categoryService.getCategories()
+      .subscribe({
+        next: (res) => {
+          this.fields[2].options = res;
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      })
   }
 
   handleSuccess() {

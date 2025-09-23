@@ -22,13 +22,14 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
                     'id', t.id,
                     'title', t.title,
                     'type', t.type,
-                    'category', t.category,
+                    'category', c.label,
                     'amount', t.amount,
                     'date', t.date
                 )
                 ORDER BY t.date DESC
             ) AS transactions
         FROM transaction t
+        JOIN category c ON t.category_id = c.id
         WHERE t.user_id = ?1
         GROUP BY TO_CHAR(t.date, 'YYYY-MM')
         ORDER BY mois DESC
@@ -38,10 +39,10 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<Object[]> findTransactionsByUserIdGroupedByMonth(Long userID);
 
     @Query("""
-        SELECT t.category as grouping, SUM(t.amount) as amount 
+        SELECT t.category.label as grouping, SUM(t.amount) as amount 
         FROM Transaction t 
         WHERE t.user.id = ?1 AND t.type = 0 
-        GROUP BY t.category
+        GROUP BY t.category.label
     """)
     List<AmountByGroupement> getStatsByCategory(Long userId);
 

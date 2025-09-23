@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { ApiService } from '../../../core/services/api.service';
 import { TransactionService } from '../../../core/services/transaction.service';
 import { TransactionFormComponent } from '../../../features/transaction/transaction-form/transaction-form.component';
 import { Transaction } from '../../../models/transaction';
@@ -26,7 +25,7 @@ export class DetailedTransactionCardComponent {
   message = '';
   showTransactionForm = false;
 
-  constructor(private api: ApiService, private transactionService: TransactionService) {}
+  constructor(private transactionService: TransactionService) {}
 
   onOpenTransactionForm() {
     this.showTransactionForm = true;
@@ -44,7 +43,7 @@ export class DetailedTransactionCardComponent {
   }
 
   onDeleteTransaction() {
-    this.api.delete(`transaction/${this.transaction.id}`)
+    this.transactionService.deleteTransaction(this.transaction.id)
       .subscribe({
         next: async () => {
           this.loading = false;

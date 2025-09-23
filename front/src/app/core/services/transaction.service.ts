@@ -26,4 +26,8 @@ export class TransactionService {
     }
     return this.api.get<TransactionsByMonth[]>(endpoint);
   }
+
+  deleteTransaction(transactionId: string): Observable<void> {
+    return this.api.delete(`transaction/${transactionId}`);
+  }
 }
