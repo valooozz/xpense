@@ -19,6 +19,7 @@ public class TransactionResponseDto {
     private Long id;
     private String title;
     private TransactionType type;
+    private Long categoryId;
     private String category;
     private double amount;
     private Date date;
@@ -28,6 +29,7 @@ public class TransactionResponseDto {
                 transaction.getId(),
                 transaction.getTitle(),
                 transaction.getType(),
+                transaction.getCategory().getId(),
                 transaction.getCategory().getLabel(),
                 transaction.getAmount(),
                 transaction.getDate()

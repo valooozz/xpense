@@ -40,7 +40,7 @@ export class TransactionFormComponent implements OnInit {
 
   ngOnInit() {
     this.submitLabel = this.transaction === undefined ? 'Ajouter la transaction' : 'Éditer la transaction';
-    this.formTitle = this.transaction === undefined ? 'Nouvelle transaction' : 'Édition de transaction'
+    this.formTitle = this.transaction === undefined ? 'Nouvelle transaction' : 'Édition de transaction';
 
     this.categoryService.getCategories()
       .subscribe({
