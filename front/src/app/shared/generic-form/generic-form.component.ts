@@ -16,7 +16,6 @@ export class GenericFormComponent {
   @Input() submitLabel: string = 'Ajouter';
   @Input() endpoint: string = '';
   @Input() successMessage: string = 'Formulaire soumis avec succès';
-  @Input() userId!: string;
   @Input() formTitle!: string;
   @Input() onSuccess?: () => void;
   @Input() initialValues: { [key: string]: any } = {};
@@ -75,13 +74,8 @@ export class GenericFormComponent {
     this.loading = true;
     this.message = null;
 
-    const request = {
-      ...this.form.value,
-      userId: this.userId
-    }
-
     if (this.edit) {
-      this.api.put(`${this.endpoint}/${this.initialValues['id']}`, request)
+      this.api.put(`${this.endpoint}/${this.initialValues['id']}`, this.form.value)
         .subscribe({
           next: async () => {
             this.loading = false;
@@ -99,7 +93,7 @@ export class GenericFormComponent {
           }
         });
     } else { // create
-      this.api.post(this.endpoint, request)
+      this.api.post(this.endpoint, this.form.value)
         .subscribe({
           next: async () => {
             this.loading = false;

@@ -13,17 +13,21 @@ import com.demo.xpense.repository.TransactionRepository;
 public class StatsService {
 
     private final TransactionRepository transactionRepository;
+    private final SecurityService securityService;
 
-    public StatsService(TransactionRepository transactionRepository) {
+    public StatsService(TransactionRepository transactionRepository, SecurityService securityService) {
         this.transactionRepository = transactionRepository;
+        this.securityService = securityService;
     }
 
-    public List<AmountByGroupement> getStatsByCategory(Long userId) {
-        return transactionRepository.getStatsByCategory(userId);
+    public List<AmountByGroupement> getStatsByCategory() {
+        Long currentUserId = securityService.getCurrentUserId();
+        return transactionRepository.getStatsByCategory(currentUserId);
     }
 
-    public List<AmountByGroupement> getStatsByMonth(Long userId, Integer limit) {
+    public List<AmountByGroupement> getStatsByMonth(Integer limit) {
+        Long currentUserId = securityService.getCurrentUserId();
         Pageable pageable = limit != null ? PageRequest.of(0, limit) : Pageable.unpaged();
-        return transactionRepository.getStatsByMonth(userId, pageable);
+        return transactionRepository.getStatsByMonth(currentUserId, pageable);
     }
 }

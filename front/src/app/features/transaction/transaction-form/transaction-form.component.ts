@@ -14,7 +14,6 @@ import { GenericFormComponent } from '../../../shared/generic-form/generic-form.
   templateUrl: './transaction-form.component.html',
 })
 export class TransactionFormComponent implements OnInit {
-  @Input() userId!: string;
   @Input() transaction!: Transaction;
 
   @Output() edited = new EventEmitter<void>();

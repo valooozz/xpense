@@ -30,15 +30,15 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<TransactionsByMonthResponseDto>> getAllTransactionsFromUser(@PathVariable Long userId) {
-        List<TransactionsByMonthResponseDto> response = transactionService.getAllTransactionsByUserId(userId);
+    @GetMapping("/user")
+    public ResponseEntity<List<TransactionsByMonthResponseDto>> getAllTransactionsFromUser() {
+        List<TransactionsByMonthResponseDto> response = transactionService.getAllTransactionsByUser();
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/user/{userId}/last")
-    public ResponseEntity<List<TransactionsByMonthResponseDto>> getLastTransactionsFromUser(@PathVariable Long userId) {
-        List<TransactionsByMonthResponseDto> response = transactionService.getLastTransactionsByUserId(userId);
+    @GetMapping("/user/last")
+    public ResponseEntity<List<TransactionsByMonthResponseDto>> getLastTransactionsFromUser() {
+        List<TransactionsByMonthResponseDto> response = transactionService.getLastTransactionsByUser();
         return ResponseEntity.ok(response);
     }
 

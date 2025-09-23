@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../../core/services/api.service';
-import { User } from '../../models/user';
 
 @Component({
   selector: 'app-login',
@@ -35,11 +34,12 @@ export class LoginComponent {
     this.loading = true;
     const { username, password } = this.loginForm.value as { username: string; password: string };
 
-    this.api.post<User>('user/login', { username, password })
+    this.api.post<{ message: string }>('auth/login', { username, password })
       .subscribe({
         next: async (res) => {
           this.loading = false;
-          await this.router.navigate(['/dashboard', res.id]);
+          console.log(res.message)
+          await this.router.navigate(['/dashboard']);
         },
         error: (err) => {
           this.loading = false;

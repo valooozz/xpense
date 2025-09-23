@@ -1,6 +1,6 @@
 <div class="flex flex-col justify-start items-stretch gap-y-4 shadow-md rounded-2xl p-4 border border-gray-200">
     
-    <app-transaction-list [userId]="userId" />
+    <app-transaction-list />
 
     <div class="flex flex-row justify-between gap-x-4">
         <app-button variant="secondary" (click)="onOpenAllTransactions()">
@@ -13,9 +13,9 @@
 </div>
 
 <app-modal [isOpen]="showTransactionForm" (closed)="onCloseTransactionForm()">
-    <app-transaction-form [userId]="userId" />
+    <app-transaction-form />
 </app-modal>
 
 <app-modal [isOpen]="showAllTransactions" (closed)="onCloseAllTransactions()">
-    <app-transaction-list [userId]="userId" [all]="true" />
+    <app-transaction-list [all]="true" />
 </app-modal>

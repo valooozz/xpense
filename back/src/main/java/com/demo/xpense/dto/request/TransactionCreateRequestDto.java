@@ -29,6 +29,4 @@ public class TransactionCreateRequestDto {
 
     private Long categoryId;
     
-    @NotBlank(message = "mandatory user ID")
-    private Long userId;
 }

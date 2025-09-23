@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { ModalComponent } from '../../../shared/modal/modal.component';
 import { TransactionFormComponent } from '../transaction-form/transaction-form.component';
@@ -10,9 +10,7 @@ import { TransactionListComponent } from '../transaction-list/transaction-list.c
   templateUrl: './transaction-manager.component.html',
   styles: ``
 })
-export class TransactionManagerComponent {
-  @Input() userId!: string;
-  
+export class TransactionManagerComponent {  
   showTransactionForm = false;
   showAllTransactions = false;
   

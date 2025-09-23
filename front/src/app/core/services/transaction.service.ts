@@ -19,8 +19,8 @@ export class TransactionService {
     this.transactionsChanged.next();
   }
 
-  getTransactionsByUser(all: boolean, userId: string): Observable<TransactionsByMonth[]> {
-    let endpoint = `transaction/user/${userId}`
+  getTransactionsByUser(all: boolean): Observable<TransactionsByMonth[]> {
+    let endpoint = `transaction/user`
     if (!all) {
       endpoint += '/last'
     }

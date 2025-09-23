@@ -10,8 +10,8 @@ export class StatsService {
 
   constructor(private api: ApiService) {}
 
-  getAmountByGrouping(grouping: string, userId: string, limit: number): Observable<AmountByGrouping[]> {
-    let url = `stats/${grouping}/${userId}`;
+  getAmountByGrouping(grouping: string, limit: number): Observable<AmountByGrouping[]> {
+    let url = `stats/${grouping}`;
     if (limit) {
         url += `?limit=${limit}`
     }

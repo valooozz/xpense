@@ -12,7 +12,6 @@ import { TransactionCardComponent } from '../../../shared/transaction/transactio
   templateUrl: './transaction-list.component.html'
 })
 export class TransactionListComponent implements OnInit {
-  @Input() userId!: string;
   @Input() all: boolean = false;
   
   transactionsByMonth: TransactionsByMonth[] = [];
@@ -28,7 +27,7 @@ export class TransactionListComponent implements OnInit {
   }
 
   private loadTransactions() {
-    this.transactionService.getTransactionsByUser(this.all, this.userId)
+    this.transactionService.getTransactionsByUser(this.all)
       .subscribe({
         next: (res) => {
           this.transactionsByMonth = res;

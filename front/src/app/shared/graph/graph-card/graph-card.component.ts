@@ -14,7 +14,6 @@ import { assignNullCategory } from '../../../utils/assignNullCategory';
   styles: ``
 })
 export class GraphCardComponent {
-  @Input() userId!: string;
   @Input() grouping!: string;
   @Input() limit!: number;
   @Input() title!: string;
@@ -41,7 +40,7 @@ export class GraphCardComponent {
   }
 
   private loadData() {
-    this.statsService.getAmountByGrouping(this.grouping, this.userId, this.limit)
+    this.statsService.getAmountByGrouping(this.grouping, this.limit)
       .subscribe({
         next: async (res) => {
           const formattedData = assignNullCategory(res);

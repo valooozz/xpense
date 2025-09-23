@@ -2,7 +2,6 @@ package com.demo.xpense.service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -15,34 +14,31 @@ import com.demo.xpense.model.Transaction;
 import com.demo.xpense.model.User;
 import com.demo.xpense.repository.CategoryRepository;
 import com.demo.xpense.repository.TransactionRepository;
-import com.demo.xpense.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
-    private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final ObjectMapper objectMapper;
+    private final SecurityService securityService;
 
-    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository, CategoryRepository categoryRepository, ObjectMapper objectMapper) {
+    public TransactionService(
+            TransactionRepository transactionRepository, 
+            CategoryRepository categoryRepository, 
+            ObjectMapper objectMapper, 
+            SecurityService securityService
+        ) {
         this.transactionRepository = transactionRepository;
-        this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
         this.objectMapper = objectMapper;
+        this.securityService = securityService;
     }
 
-    public List<Transaction> getAllTransactions() {
-        return transactionRepository.findAll();
-    }
-
-    public Optional<Transaction> getTransactionById(Long id) {
-        return transactionRepository.findById(id);
-    }
-
-    public List<TransactionsByMonthResponseDto> getAllTransactionsByUserId(Long userId) {
-        List<Object[]> results = transactionRepository.findTransactionsByUserIdGroupedByMonth(userId);
+    public List<TransactionsByMonthResponseDto> getAllTransactionsByUser() {
+        Long currentUserId = securityService.getCurrentUserId();
+        List<Object[]> results = transactionRepository.findTransactionsByUserIdGroupedByMonth(currentUserId);
 
         return results.stream()
             .map(row -> {
@@ -64,8 +60,9 @@ public class TransactionService {
             .toList();
     }
 
-    public List<TransactionsByMonthResponseDto> getLastTransactionsByUserId(Long userId) {
-        List<TransactionResponseDto> transactions = transactionRepository.findTop4ByUserIdOrderByDateDesc(userId)
+    public List<TransactionsByMonthResponseDto> getLastTransactionsByUser() {
+        Long currentUserId = securityService.getCurrentUserId();
+        List<TransactionResponseDto> transactions = transactionRepository.findTop4ByUserIdOrderByDateDesc(currentUserId)
                 .stream()
                 .map(TransactionResponseDto::fromEntity)
                 .toList();
@@ -73,13 +70,8 @@ public class TransactionService {
         return List.of(response);
     }
 
-    public Transaction saveTransaction(Transaction transaction) {
-        return transactionRepository.save(transaction);
-    }
-
     public TransactionResponseDto createTransaction(TransactionCreateRequestDto requestDto) {
-        User user = userRepository.findById(requestDto.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User currentUser = securityService.getCurrentUser();
 
         Category category = requestDto.getCategoryId() != null ? categoryRepository.findById(requestDto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found")) : null;
@@ -90,7 +82,7 @@ public class TransactionService {
         transaction.setCategory(category);
         transaction.setAmount(requestDto.getAmount());
         transaction.setDate(requestDto.getDate() != null ? requestDto.getDate() : new Date());
-        transaction.setUser(user);
+        transaction.setUser(currentUser);
 
         Transaction saved = transactionRepository.save(transaction);
         return TransactionResponseDto.fromEntity(saved);
@@ -99,6 +91,9 @@ public class TransactionService {
     public TransactionResponseDto updateTransaction(Long id, TransactionUpdateRequestDto updatedTransaction) {
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Transaction not found"));
+
+        securityService.validateUserAccess(transaction.getUser().getId());
+
         Category category = categoryRepository.findById(updatedTransaction.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));
 
@@ -123,6 +118,10 @@ public class TransactionService {
     }
 
     public void deleteTransaction(Long id) {
+        Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Transaction not found"));
+        securityService.validateUserAccess(transaction.getUser().getId());
+        
         transactionRepository.deleteById(id);
     }
 }
