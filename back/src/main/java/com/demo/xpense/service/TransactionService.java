@@ -13,7 +13,6 @@ import com.demo.xpense.dto.response.TransactionsByMonthResponseDto;
 import com.demo.xpense.model.Category;
 import com.demo.xpense.model.Transaction;
 import com.demo.xpense.model.User;
-import com.demo.xpense.model.enums.TransactionType;
 import com.demo.xpense.repository.CategoryRepository;
 import com.demo.xpense.repository.TransactionRepository;
 import com.demo.xpense.repository.UserRepository;
@@ -81,12 +80,13 @@ public class TransactionService {
     public TransactionResponseDto createTransaction(TransactionCreateRequestDto requestDto) {
         User user = userRepository.findById(requestDto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        Category category = categoryRepository.findById(requestDto.getCategoryId())
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        Category category = requestDto.getCategoryId() != null ? categoryRepository.findById(requestDto.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found")) : null;
 
         Transaction transaction = new Transaction();
         transaction.setTitle(requestDto.getTitle());
-        transaction.setType(requestDto.getType() != null ? requestDto.getType() : TransactionType.EXPENSE);
+        transaction.setType(requestDto.getType());
         transaction.setCategory(category);
         transaction.setAmount(requestDto.getAmount());
         transaction.setDate(requestDto.getDate() != null ? requestDto.getDate() : new Date());

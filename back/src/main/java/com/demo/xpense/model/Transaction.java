@@ -41,7 +41,7 @@ public class Transaction {
     @Column(nullable = false)
     private Date date;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "category_id", nullable = true)
     private Category category;
 

@@ -30,7 +30,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
                 ORDER BY t.date DESC
             ) AS transactions
         FROM transaction t
-        JOIN category c ON t.category_id = c.id
+        LEFT OUTER JOIN category c ON t.category_id = c.id
         WHERE t.user_id = ?1
         GROUP BY TO_CHAR(t.date, 'YYYY-MM')
         ORDER BY mois DESC

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { TransactionService } from '../../../core/services/transaction.service';
 import { TransactionFormComponent } from '../../../features/transaction/transaction-form/transaction-form.component';
 import { Transaction } from '../../../models/transaction';
@@ -25,7 +26,7 @@ export class DetailedTransactionCardComponent {
   message = '';
   showTransactionForm = false;
 
-  constructor(private transactionService: TransactionService) {}
+  constructor(private transactionService: TransactionService, private toastr: ToastrService) {}
 
   onOpenTransactionForm() {
     this.showTransactionForm = true;
@@ -49,6 +50,7 @@ export class DetailedTransactionCardComponent {
           this.loading = false;
           this.transactionService.notifyTransactionsChanged();
           this.deleted.emit();
+          this.toastr.success('La transaction a été supprimée');
         },
         error: (err) => {
           this.loading = false;
