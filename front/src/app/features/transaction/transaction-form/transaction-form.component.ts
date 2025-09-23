@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CategoryService } from '../../../core/services/category.service';
 import { TransactionService } from '../../../core/services/transaction.service';
-import { Category } from '../../../models/category';
 import { FormField } from '../../../models/form-field';
 import { Transaction } from '../../../models/transaction';
 import { GenericFormComponent } from '../../../shared/generic-form/generic-form.component';
@@ -38,7 +37,6 @@ export class TransactionFormComponent implements OnInit {
   formTitle!: string;
   endpoint = 'transaction';
   successMessage = 'Transaction ajoutée';
-  categories!: Category[];
 
   ngOnInit() {
     this.submitLabel = this.transaction === undefined ? 'Ajouter la transaction' : 'Éditer la transaction';

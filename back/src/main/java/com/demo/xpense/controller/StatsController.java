@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.xpense.dto.response.AmountByGroupement;
@@ -29,8 +30,11 @@ public class StatsController {
     }
 
     @GetMapping("/month/{userId}")
-    public ResponseEntity<List<AmountByGroupement>> getStatsByMonth(@PathVariable Long userId) {
-        List<AmountByGroupement> response = statsService.getStatsByMonth(userId);
+    public ResponseEntity<List<AmountByGroupement>> getStatsByMonth(
+            @PathVariable Long userId, 
+            @RequestParam(required = false) Integer limit
+        ) {
+        List<AmountByGroupement> response = statsService.getStatsByMonth(userId, limit);
         return ResponseEntity.ok(response);
     }
     

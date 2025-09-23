@@ -7,13 +7,13 @@
   <div class="flex flex-row justify-evenly items-center gap-y-4 flex-wrap">
 
     <div class="min-w-100 max-w-[30vw] flex-1">
-      <app-graph-card [userId]="userId" endpoint="stats/category" title="Dépenses par catégorie">
+      <app-graph-card [userId]="userId" grouping="category" title="Dépenses par catégorie">
         <app-graph #data graphType="pie"></app-graph>
       </app-graph-card>
     </div>
 
     <div class="min-w-100 max-w-[30vw] flex-1">
-      <app-graph-card [userId]="userId" endpoint="stats/month" title="Dépenses par mois">
+      <app-graph-card [userId]="userId" grouping="month" [limit]="6" title="Dépenses par mois">
         <app-graph #data graphType="bar"></app-graph>
       </app-graph-card>
     </div>

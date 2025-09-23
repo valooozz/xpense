@@ -2,6 +2,8 @@ package com.demo.xpense.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.demo.xpense.dto.response.AmountByGroupement;
@@ -20,7 +22,8 @@ public class StatsService {
         return transactionRepository.getStatsByCategory(userId);
     }
 
-    public List<AmountByGroupement> getStatsByMonth(Long userId) {
-        return transactionRepository.getStatsByMonth(userId);
+    public List<AmountByGroupement> getStatsByMonth(Long userId, Integer limit) {
+        Pageable pageable = limit != null ? PageRequest.of(0, limit) : Pageable.unpaged();
+        return transactionRepository.getStatsByMonth(userId, pageable);
     }
 }

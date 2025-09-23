@@ -4,6 +4,8 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { AmountByGrouping } from '../../../models/amount-by-grouping';
 import { ChartWithData } from '../../../models/chart-with-data';
+import { formatGraphValue } from '../../../utils/formatGraphValue';
+import { isSmallCategory } from '../../../utils/isSmallCategory';
 
 @Component({
   selector: 'app-graph',
@@ -17,35 +19,22 @@ export class GraphComponent implements ChartWithData {
 
   animate: boolean = true;
 
-  public getGraphOptions(graphType: ChartType): ChartConfiguration['options'] {
-    if (graphType === 'pie') {
-      return {
-        responsive: true,
-        animation: false,
-        plugins: {
-          legend: {
-            position: 'bottom',
-          },
-        },
-      };
-    } else if (graphType === 'bar') {
-      return {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: false,
-        plugins: {
-          legend: {
-            display: false,
-          },
-        },
-      }
-    }
+  public getGraphOptions(): ChartConfiguration['options'] {
     return {
       responsive: true,
       animation: false,
+      maintainAspectRatio: this.graphType === 'pie',
       plugins: {
         legend: {
           position: 'bottom',
+          display: this.graphType === 'pie'
+        },
+        datalabels: {
+          formatter: (value: number) => formatGraphValue(value),
+          display: (context) => {
+            if (this.graphType !== 'pie') return true;
+            return !isSmallCategory(context);
+          }
         },
       },
     };
@@ -61,12 +50,28 @@ export class GraphComponent implements ChartWithData {
     return rawLabel
   }
 
+  private extractData(): number[] {
+    const dataExtracted = this.data.map(item => item.amount);
+    if (this.graphType === 'bar') {
+      return dataExtracted.reverse();
+    }
+    return dataExtracted;
+  }
+
+  private extractLabel(): string[] {
+    const labelExtracted = this.data.map(item => this.formatLabel(item.grouping, this.graphType));
+    if (this.graphType === 'bar') {
+      return labelExtracted.reverse();
+    }
+    return labelExtracted;
+  }
+
   get graphData(): ChartData<ChartType, number[], string | string[]> {
     return {
-      labels: this.data.map(item => this.formatLabel(item.grouping, this.graphType)),
+      labels: this.extractLabel(),
       datasets: [
         {
-          data: this.data.map(item => item.amount),
+          data: this.extractData(),
           backgroundColor: [
             '#FF6384',
             '#36A2EB',
@@ -74,6 +79,10 @@ export class GraphComponent implements ChartWithData {
             '#4BC0C0',
             '#9966FF',
             '#FF9F40',
+            '#00A950',
+            '#C9CBCF',
+            '#FF4500',
+            '#2E86AB'
           ],
           borderColor: '#fff',
           borderWidth: 2,

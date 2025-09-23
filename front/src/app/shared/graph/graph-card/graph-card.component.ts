@@ -1,5 +1,6 @@
 import { Component, ContentChildren, Input, QueryList } from '@angular/core';
 import { ApiService } from '../../../core/services/api.service';
+import { StatsService } from '../../../core/services/stats.service';
 import { TransactionService } from '../../../core/services/transaction.service';
 import { AmountByGrouping } from '../../../models/amount-by-grouping';
 import { ChartWithData } from '../../../models/chart-with-data';
@@ -14,14 +15,15 @@ import { assignNullCategory } from '../../../utils/assignNullCategory';
 })
 export class GraphCardComponent {
   @Input() userId!: string;
-  @Input() endpoint!: string;
+  @Input() grouping!: string;
+  @Input() limit!: number;
   @Input() title!: string;
 
   @ContentChildren('data', { descendants: true }) graphs!: QueryList<ChartWithData>;
 
   errorMessage!: string;
 
-  constructor(private api: ApiService, private transactionService: TransactionService) {}
+  constructor(private api: ApiService, private transactionService: TransactionService, private statsService: StatsService) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -39,7 +41,7 @@ export class GraphCardComponent {
   }
 
   private loadData() {
-    this.api.get<AmountByGrouping[]>(`${this.endpoint}/${this.userId}`)
+    this.statsService.getAmountByGrouping(this.grouping, this.userId, this.limit)
       .subscribe({
         next: async (res) => {
           const formattedData = assignNullCategory(res);

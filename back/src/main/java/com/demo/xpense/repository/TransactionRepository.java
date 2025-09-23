@@ -2,6 +2,7 @@ package com.demo.xpense.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -43,6 +44,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         FROM Transaction t 
         WHERE t.user.id = ?1 AND t.type = 0 
         GROUP BY t.category.label
+        ORDER BY amount DESC
     """)
     List<AmountByGroupement> getStatsByCategory(Long userId);
 
@@ -51,6 +53,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         FROM Transaction t 
         WHERE t.user.id = ?1 AND t.type = 0 
         GROUP BY EXTRACT(MONTH FROM t.date)
+        ORDER BY grouping DESC
     """)
-    List<AmountByGroupement> getStatsByMonth(Long userId);
+    List<AmountByGroupement> getStatsByMonth(Long userId, Pageable pageable);
 }
