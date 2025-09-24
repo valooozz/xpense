@@ -1,8 +1,14 @@
 <div class="flex flex-col justify-start gap-y-4 rounded-2xl p-4 border border-gray-200">
 
-    <p class="text-center text-xl">
-        {{ title }}
-    </p>
+    <div>
+        <p class="text-center text-xl">
+            {{ title }}
+        </p>
+    
+        <div class="relative">
+            <app-button class="absolute -top-8 right-0" (click)="onExport()">Exporter</app-button>
+        </div>
+    </div>
 
     <ng-content></ng-content>
 </div>

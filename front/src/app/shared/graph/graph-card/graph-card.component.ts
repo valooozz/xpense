@@ -1,15 +1,17 @@
-import { Component, ContentChildren, Input, QueryList } from '@angular/core';
-import { ApiService } from '../../../core/services/api.service';
+import { Component, ContentChild, Input } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { StatsService } from '../../../core/services/stats.service';
 import { TransactionService } from '../../../core/services/transaction.service';
 import { AmountByGrouping } from '../../../models/amount-by-grouping';
 import { ChartWithData } from '../../../models/chart-with-data';
 import { assignNullCategory } from '../../../utils/assignNullCategory';
+import { exportCsv } from '../../../utils/exportCsv';
+import { ButtonComponent } from '../../button/button.component';
 
 
 @Component({
   selector: 'app-graph-card',
-  imports: [],
+  imports: [ButtonComponent],
   templateUrl: './graph-card.component.html',
   styles: ``
 })
@@ -18,11 +20,11 @@ export class GraphCardComponent {
   @Input() limit!: number;
   @Input() title!: string;
 
-  @ContentChildren('data', { descendants: true }) graphs!: QueryList<ChartWithData>;
+  @ContentChild('data', { descendants: true }) graph!: ChartWithData;
 
   errorMessage!: string;
 
-  constructor(private api: ApiService, private transactionService: TransactionService, private statsService: StatsService) {}
+  constructor(private transactionService: TransactionService, private statsService: StatsService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -32,11 +34,7 @@ export class GraphCardComponent {
   }
 
   private updateGraphData(data: AmountByGrouping[]) {
-    if (this.graphs && this.graphs.length > 0) {
-      this.graphs.forEach(graph => {
-        graph.data = data;
-      });
-    }
+    this.graph.data = data;
   }
 
   private loadData() {
@@ -50,5 +48,28 @@ export class GraphCardComponent {
           this.errorMessage = err?.error?.message || "Impossible de récupérer les transactions.";
         }
       });
+  }
+
+  onExport() {
+    if (!this.graph || !this.graph.data || !Array.isArray(this.graph.data) || this.graph.data.length === 0) {
+      this.toastr.error("Aucune donnée à exporter");
+      return;
+    }
+
+    const keys = Object.keys(this.graph.data[0]);
+    const csvRows = [
+      keys.join(','), // header
+      ...this.graph.data.map(row =>
+        keys.map(k => {
+          const val = (row as unknown as Record<string, unknown>)[k];
+          if (typeof val === 'string') {
+            return `"${val.replace(/"/g, '""')}"`;
+          }
+          return val;
+        }).join(',')
+      )
+    ];
+
+    exportCsv(csvRows, `${this.title.replaceAll(' ', '') || 'export'}.csv`);
   }
 }

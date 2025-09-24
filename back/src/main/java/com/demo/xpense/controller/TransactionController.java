@@ -42,6 +42,12 @@ public class TransactionController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/user/export")
+    public ResponseEntity<List<TransactionResponseDto>> getAllTransactionsFromUserForExport() {
+        List<TransactionResponseDto> response = transactionService.getAllTransactionsByUserForExport();
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("")
     public ResponseEntity<TransactionResponseDto> createTransaction(@RequestBody TransactionCreateRequestDto newTransaction) {
         TransactionResponseDto response = transactionService.createTransaction(newTransaction);

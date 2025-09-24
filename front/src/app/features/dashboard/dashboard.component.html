@@ -4,7 +4,9 @@
     Dashboard
   </h1>
 
-  <div class="absolute top-5 right-13">
+  <div class="absolute top-5 right-13 flex flex-row gap-x-4">
+    <app-button (click)="onExport()">Exporter les transactions</app-button>
+
     <app-button variant="secondary" (click)="onLogout()">Déconnexion</app-button>
   </div>
 

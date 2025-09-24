@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Transaction } from '../../models/transaction';
 import { TransactionsByMonth } from '../../models/transactions-by-month';
 import { ApiService } from './api.service';
 
@@ -25,6 +26,10 @@ export class TransactionService {
       endpoint += '/last'
     }
     return this.api.get<TransactionsByMonth[]>(endpoint);
+  }
+
+  getTransactionsByUserForExport(): Observable<Transaction[]> {
+    return this.api.get<Transaction[]>('transaction/user/export');
   }
 
   deleteTransaction(transactionId: string): Observable<void> {

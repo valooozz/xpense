@@ -70,6 +70,14 @@ public class TransactionService {
         return List.of(response);
     }
 
+    public List<TransactionResponseDto> getAllTransactionsByUserForExport() {
+        Long currentUserId = securityService.getCurrentUserId();
+        return transactionRepository.findByUserIdOrderByDateDesc(currentUserId)
+                .stream()
+                .map(TransactionResponseDto::fromEntity)
+                .toList();
+    }
+
     public TransactionResponseDto createTransaction(TransactionCreateRequestDto requestDto) {
         User currentUser = securityService.getCurrentUser();
 
