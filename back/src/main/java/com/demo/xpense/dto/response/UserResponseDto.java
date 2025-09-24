@@ -1,7 +1,11 @@
 package com.demo.xpense.dto.response;
 
 import com.demo.xpense.model.User;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -18,4 +22,5 @@ public class UserResponseDto {
                 user.getUsername()
         );
     }
+
 }

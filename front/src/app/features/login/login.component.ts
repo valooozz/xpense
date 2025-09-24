@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ApiService } from '../../core/services/api.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ export class LoginComponent {
 
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private api: ApiService, private router: Router, private toastr: ToastrService) {
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private toastr: ToastrService) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]]
@@ -35,7 +35,7 @@ export class LoginComponent {
     this.loading = true;
     const { username, password } = this.loginForm.value as { username: string; password: string };
 
-    this.api.post<{ message: string }>('auth/login', { username, password })
+    this.auth.login({ username, password })
       .subscribe({
         next: async () => {
           this.loading = false;

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ApiService } from '../../core/services/api.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +15,7 @@ export class RegisterComponent {
   loading = false;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router, private api: ApiService, private toastr: ToastrService) {
+  constructor(private fb: FormBuilder, private router: Router, private auth: AuthService, private toastr: ToastrService) {
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -40,7 +40,7 @@ export class RegisterComponent {
 
     const { username, password } = this.registerForm.value as { username: string; password: string };
 
-    this.api.post<{ message: string }>('auth/register', { username, password })
+    this.auth.register({ username, password })
       .subscribe({
         next: async () => {
           this.loading = false;

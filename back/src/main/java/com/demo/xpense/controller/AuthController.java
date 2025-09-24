@@ -50,7 +50,7 @@ public class AuthController {
 
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-            return ResponseEntity.ok(new SuccessResponseDto("Login réussi"));
+            return ResponseEntity.ok(new SuccessResponseDto("Connexion réussie"));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
@@ -67,4 +67,17 @@ public class AuthController {
         userService.registerUser(username, password);
         return ResponseEntity.ok(new SuccessResponseDto("Création d'utilisateur réussie"));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("jwt", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)  // supprime le cookie
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        return ResponseEntity.ok(new SuccessResponseDto("Déconnexion réussie"));
+    }
+
 }

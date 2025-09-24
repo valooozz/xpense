@@ -18,12 +18,18 @@ public class SecurityService {
 
     public Long getCurrentUserId() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (userId.equals("anonymousUser")) {
+            return null;
+        }
         return Long.parseLong(userId);
     }
 
     public User getCurrentUser() {
         Long id = getCurrentUserId();
-        return userRepository.findById(id).orElseThrow(() -> new AccessDeniedException("Vous n'avez pas le droit d'accéder à cette ressource"));
+        if (id == null) {
+            throw new AccessDeniedException("Aucun utilisateur connecté");
+        }
+        return userRepository.findById(id).orElseThrow(() -> new AccessDeniedException("Aucun utilisateur connecté"));
     }
 
     public void validateUserAccess(Long userId) {
