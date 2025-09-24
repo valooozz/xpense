@@ -92,6 +92,6 @@ Pour plus de détails sur la structure du projet, se référer à la [Documentat
 
 ## Démo
 
-Cliquer sur l'image ci-dessous pour accéder à une vidéo de démonstration de l'application.
+Cliquer sur l'image ci-dessous pour accéder à une vidéo de démonstration de l'application. Il se peut qu'il ne soit pas possible de la lire depuis GitHub. Mais c'est un fichier mp4 donc il suffit de la télécharger pour la visionner avec n'importe quel lecteur vidéo.
 
 [![Démonstration du projet](doc/Dashboard.png)](doc/Demo.mp4)
