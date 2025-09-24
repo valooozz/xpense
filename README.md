@@ -91,3 +91,7 @@ Voici les principaux endpoints du backend :
 Pour plus de détails sur la structure du projet, se référer à la [Documentation technique](doc/DocTechnique.md).
 
 ## Démo
+
+Cliquer sur l'image ci-dessous pour accéder à une vidéo de démonstration de l'application.
+
+[![Démonstration du projet](doc/Dashboard.png)](doc/Demo.mp4)
