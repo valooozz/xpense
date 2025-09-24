@@ -1,4 +1,4 @@
-package com.demo.xpense.dto.response;
+package com.demo.xpense.dto.response.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SuccessResponseDto {
+public class ErrorResponseDto {
     private String message;
+    private int status;
 }

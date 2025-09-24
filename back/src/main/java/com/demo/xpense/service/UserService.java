@@ -4,7 +4,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.demo.xpense.dto.response.UserResponseDto;
+import com.demo.xpense.dto.response.user.UserResponseDto;
 import com.demo.xpense.model.User;
 import com.demo.xpense.repository.UserRepository;
 

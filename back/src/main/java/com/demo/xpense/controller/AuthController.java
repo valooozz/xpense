@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.demo.xpense.dto.response.ErrorResponseDto;
-import com.demo.xpense.dto.response.SuccessResponseDto;
+import com.demo.xpense.dto.response.api.ErrorResponseDto;
+import com.demo.xpense.dto.response.api.SuccessResponseDto;
 import com.demo.xpense.model.User;
 import com.demo.xpense.service.UserService;
 import com.demo.xpense.util.JwtUtil;

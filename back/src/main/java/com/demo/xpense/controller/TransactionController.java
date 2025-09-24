@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.demo.xpense.dto.request.TransactionCreateRequestDto;
-import com.demo.xpense.dto.request.TransactionUpdateRequestDto;
-import com.demo.xpense.dto.response.TransactionResponseDto;
-import com.demo.xpense.dto.response.TransactionsByMonthResponseDto;
+import com.demo.xpense.dto.request.transaction.TransactionCreateRequestDto;
+import com.demo.xpense.dto.request.transaction.TransactionUpdateRequestDto;
+import com.demo.xpense.dto.response.transaction.TransactionResponseDto;
+import com.demo.xpense.dto.response.transaction.TransactionsByMonthResponseDto;
 import com.demo.xpense.service.TransactionService;
 
 

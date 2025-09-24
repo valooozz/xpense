@@ -1,4 +1,4 @@
-package com.demo.xpense.dto.request;
+package com.demo.xpense.dto.request.transaction;
 
 import java.util.Date;
 

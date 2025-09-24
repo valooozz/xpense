@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.demo.xpense.dto.response.UserResponseDto;
+import com.demo.xpense.dto.response.user.UserResponseDto;
 import com.demo.xpense.model.User;
 import com.demo.xpense.service.SecurityService;
 

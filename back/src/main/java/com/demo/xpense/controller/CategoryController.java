@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.demo.xpense.dto.response.FormCategoryResponseDto;
+import com.demo.xpense.dto.response.transaction.FormCategoryResponseDto;
 import com.demo.xpense.service.CategoryService;
 
 

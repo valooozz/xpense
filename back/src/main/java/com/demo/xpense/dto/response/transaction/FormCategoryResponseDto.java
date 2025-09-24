@@ -1,4 +1,4 @@
-package com.demo.xpense.dto.response;
+package com.demo.xpense.dto.response.transaction;
 
 import com.demo.xpense.model.Category;
 

@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.demo.xpense.dto.response.AmountByGroupement;
+import com.demo.xpense.dto.response.stats.AmountByGroupement;
 import com.demo.xpense.model.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {

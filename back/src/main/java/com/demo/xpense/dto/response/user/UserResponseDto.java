@@ -1,4 +1,4 @@
-package com.demo.xpense.dto.response;
+package com.demo.xpense.dto.response.user;
 
 import com.demo.xpense.model.User;
 

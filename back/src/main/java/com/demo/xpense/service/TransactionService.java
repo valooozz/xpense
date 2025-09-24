@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.demo.xpense.dto.request.TransactionCreateRequestDto;
-import com.demo.xpense.dto.request.TransactionUpdateRequestDto;
-import com.demo.xpense.dto.response.TransactionResponseDto;
-import com.demo.xpense.dto.response.TransactionsByMonthResponseDto;
+import com.demo.xpense.dto.request.transaction.TransactionCreateRequestDto;
+import com.demo.xpense.dto.request.transaction.TransactionUpdateRequestDto;
+import com.demo.xpense.dto.response.transaction.TransactionResponseDto;
+import com.demo.xpense.dto.response.transaction.TransactionsByMonthResponseDto;
 import com.demo.xpense.model.Category;
 import com.demo.xpense.model.Transaction;
 import com.demo.xpense.model.User;
