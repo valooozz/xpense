@@ -34,6 +34,10 @@ public class UserService {
         return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+    public boolean userExists(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
     public UserResponseDto getUserByUsernameAndPassword(String username, String password) {
         User user = userRepository.findByUsernameAndPassword(username, password).orElseThrow(() -> new RuntimeException("User not found"));
         return UserResponseDto.fromEntity(user);

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../../core/services/api.service';
 
 @Component({
@@ -17,10 +18,10 @@ export class LoginComponent {
 
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private api: ApiService, private router: Router) {
+  constructor(private fb: FormBuilder, private api: ApiService, private router: Router, private toastr: ToastrService) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
@@ -36,14 +37,14 @@ export class LoginComponent {
 
     this.api.post<{ message: string }>('auth/login', { username, password })
       .subscribe({
-        next: async (res) => {
+        next: async () => {
           this.loading = false;
-          console.log(res.message)
+          this.toastr.info(`Bonjour ${username} !`);
           await this.router.navigate(['/dashboard']);
         },
         error: (err) => {
           this.loading = false;
-          this.errorMessage = err?.error?.message || "Nom d'utilisateur ou mot de passe incorrect.";
+          this.toastr.error(err?.error?.message || "Nom d'utilisateur ou mot de passe incorrect.")
         }
       });
   }
