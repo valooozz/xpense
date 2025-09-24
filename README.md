@@ -68,7 +68,7 @@ Avant de lancer l’application :
 - Consulter le tableau de bord pour visualiser l’historique et le budget.
 - Modifier ou supprimer des dépenses si nécessaire.
 
-Pour plus de détails sur l'utilisation du projet, se référer à la Documentation utilisateur.
+Pour plus de détails sur l'utilisation du projet, se référer à la [Documentation utilisateur](doc/DocUtilisateur.md).
 
 ## Structure du projet
 
@@ -82,13 +82,12 @@ Le frontend est développé avec Angular en utilisant uniquement des composants 
 
 ### API
 Voici les principaux endpoints du backend :
-- POST /api/auth/register : créer un nouvel utilisateur
 - POST /api/auth/login : connexion utilisateur
-- GET /api/transactions/all : récupérer toutes les dépenses de l’utilisateur connecté
+- GET /api/transaction/all : récupérer toutes les dépenses de l’utilisateur connecté
 - POST /api/transaction : ajouter une transaction (avec les informations associées)
 - PUT /api/transaction/{id} : modifier une transaction existante
 - DELETE /api/transaction/{id} : supprimer une transaction
 
-Pour plus de détails sur la structure du projet, se référer à la Documentation technique.
+Pour plus de détails sur la structure du projet, se référer à la [Documentation technique](doc/DocTechnique.md).
 
 ## Démo
