@@ -22,6 +22,8 @@ Cliquez sur une catégorie dans la légende pour la faire disparaître ou réapp
 
 Le deuxième bloc contient un graphique en barres représentant le montant des dépenses par mois.
 
+Cliquez sur le bouton "Exporter" pour exporter les données des graphiques au format CSV.
+
 ### Transactions
 
 Le troisième bloc du Dashboard permet de gérer ses transactions. Vous y voyez d'abord les quatre dernières transactions entrées.
@@ -44,6 +46,8 @@ Modifiez les champs que vous souhaitez puis cliquez sur "Éditer la transaction"
 Pour supprimer la transaction, cliquez sur "Supprimer la transaction".
 
 À chaque ajout, édition, ou suppression de transaction, la liste des transactions et les graphiques sont automatiquement mis à jour.
+
+Cliquez sur le bouton "Exporter les transactions" pour obtenir le fichier CSV de toutes vos transactions.
 
 ### Déconnexion
 

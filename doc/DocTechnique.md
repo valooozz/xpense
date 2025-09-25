@@ -48,6 +48,7 @@ La base de données utilisée est **PostgreSQL**, et la sécurité repose sur **
 |
 | GET     | /api/transaction/user | Récupérer toutes les transaction de l'utilisateur connecté, regroupées par mois | - | JWT requis |
 | GET     | /api/transaction/user/last | Récupérer les quatre dernières transactions de l'utilisateur connecté | - | JWT requis |
+| GET     | /api/transaction/user/export | Récupérer toutes les transactions de l'utilisateur connecté, pour l'export | - | JWT requis |
 | POST    | /api/transaction | Ajouter une dépense | Objet Transaction dans le body | JWT requis |
 | PUT     | /api/transaction/{id} | Modifier une dépense | Objet Transaction dans le body et id dans l'URL de la requête | JWT requis |
 | DELETE  | /api/transaction/{id} | Supprimer une dépense | id dans l'URL de la requête | JWT requis |

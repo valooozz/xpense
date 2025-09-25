@@ -46,8 +46,7 @@ Les fonctionnalités ont été développées à partir des [user stories](doc/Us
     - DB_URL : URL de la base de données
     - DB_USER : nom d’utilisateur
     - DB_PASSWORD : mot de passe
-    - JWT_SECRET : clé secrète pour les tokens JWT
-4. Lancer le backend avec Maven ou via ton IDE : ./mvnw spring-boot:run
+4. Lancer le backend avec Maven ou via l'IDE : `mvn spring-boot:run`
 
 ### Frontend
 1. Aller dans le dossier *front*.
