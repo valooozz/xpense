@@ -45,7 +45,7 @@ public class AuthController {
                     .secure(false)
                     .path("/")
                     .maxAge(60 * 60)  // 1h
-                    .sameSite("Strict")
+                    .sameSite("None")
                     .build();
 
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
