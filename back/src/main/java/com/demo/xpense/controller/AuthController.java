@@ -42,7 +42,7 @@ public class AuthController {
             
             ResponseCookie cookie = ResponseCookie.from("jwt", token)
                     .httpOnly(true)  
-                    .secure(false)
+                    .secure(true)
                     .path("/")
                     .maxAge(60 * 60)  // 1h
                     .sameSite("None")
@@ -72,9 +72,10 @@ public class AuthController {
     public ResponseEntity<?> logout(HttpServletResponse response) {
         ResponseCookie cookie = ResponseCookie.from("jwt", "")
                 .httpOnly(true)
-                .secure(false)
+                .secure(true)
                 .path("/")
                 .maxAge(0)  // supprime le cookie
+                .sameSite("None")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         return ResponseEntity.ok(new SuccessResponseDto("Déconnexion réussie"));
